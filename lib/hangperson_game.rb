@@ -24,34 +24,41 @@ class HangpersonGame
   
   
   def guess(my_guess)
-    if self.word.include?(my_guess)
-      unless self.guesses.include?(my_guess)
-        self.guesses.push(my_guess)
-        return true
-      else
-        return false
-      end
+    if my_guess == '' or /[a-zA-Z]/.match(my_guess) == nil or my_guess == nil
+      raise HangpersonGame::ArgumentError, "Wrong format for guess"
+    end
+    my_guess.downcase!
+    if @word.include?(my_guess) and @guesses.include?(my_guess) == false
+      @guesses << my_guess
+    elsif @word.include?(my_guess) == false and @wrong_guesses.include?(my_guess) == false
+      @wrong_guesses << my_guess
     else
-      unless self.wrong_guesses.include?(my_guess)
-        self.wrong_guesses.push(my_guess)
-        return true
-      else
-        return false
-      end
+      return false
     end
   end
 
   
-  def show
-    
+  def word_with_guesses()
+    showWord = ""
+    @word.each_char do |letter|
+      if @guesses.include?(letter)
+        showWord << letter
+      else
+        showWord << '-'
+      end
+    end
+    return showWord
   end
   
-  def win
-    
+  def check_win_or_lose()
+   status = nil
+    if @wrong_guesses.length >= 7
+      status= :lose
+    elsif word_with_guesses == @word
+      status = :win
+    else
+      status = :play
+    end
+    return status
   end
-  
-  def lose
-    
-  end
-
 end
