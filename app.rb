@@ -71,4 +71,18 @@ class HangpersonApp < Sinatra::Base
     erb :show
   
   end
+  get '/win' do
+    if @game.check_win_or_lose() != :win
+      redirect '/show'
+    end
+    erb :win
+  end
+  
+  get '/lose' do
+    if @game.check_win_or_lose() != :lose
+      redirect '/show'
+    end
+    erb :lose
+  end
+  
 end
