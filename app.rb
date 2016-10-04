@@ -58,7 +58,7 @@ class HangpersonApp < Sinatra::Base
     end
   
   
-  gameState = @game.game_Status()
+  gameState = @game.check_win_or_lose()
   
   if gameState == :win
     redirect '/win'
